@@ -7,16 +7,14 @@ import com.andreitop.xml.unit.Human;
 import com.andreitop.xml.unit.Orc;
 import com.andreitop.xml.unit.Troll;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.beans.factory.config.PreferencesPlaceholderConfigurer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
-
-import java.text.SimpleDateFormat;
 
 @Configuration
 @PropertySource("classpath:config/heroes.properties")
@@ -26,22 +24,22 @@ public class AppConfig {
     public String created;
 
     @Bean
-    public Wolf frostWolf (){
+    public Wolf frostWolf() {
         return new Wolf();
     }
 
     @Bean
-    public Tiger shadowTiger(){
+    public Tiger shadowTiger() {
         return new Tiger();
     }
 
     @Bean
-    public Human knight(){
-        return new Human(shadowTiger(), "soulBlade", "thunderFury");
+    public Human knight() {
+        return new Human(shadowTiger(), "thunderFury", "soulBlade");
     }
 
     @Bean
-    public Orc trall(){
+    public Orc trall() {
         Orc orc = new Orc(frostWolf());
         orc.setColorCode(9);
         orc.setWeapon("furryAxe");
@@ -49,12 +47,12 @@ public class AppConfig {
     }
 
     @Bean
-    public SimpleDateFormat dateFormatter(){
-        return new SimpleDateFormat("dd-mm-yyyy");
+    public SimpleDateFormat dateFormatter() {
+        return new SimpleDateFormat("dd/mm/yyyy");
     }
 
     @Bean
-    public Map<String, Mount> trollMountMap(){
+    public Map<String, Mount> trollMountMap() {
         Map<String, Mount> trollMap = new HashMap<>();
         trollMap.put("m1", frostWolf());
         trollMap.put("m2", shadowTiger());
@@ -62,21 +60,21 @@ public class AppConfig {
     }
 
     @Bean
-    public Set<Mount> trollMountSet(){
+    public Set<Mount> trollMountSet() {
         Set<Mount> trollMountSet = new HashSet<>();
-        trollMountSet.add(shadowTiger());
         trollMountSet.add(frostWolf());
+        trollMountSet.add(shadowTiger());
         return trollMountSet;
     }
 
     @Bean
     public Troll zulJin() throws ParseException {
         Troll zulJin = new Troll();
-        zulJin.setColorCode(ThreadLocalRandom.current().nextInt(1,10));
+        zulJin.setColorCode(ThreadLocalRandom.current().nextInt(1, 9));
         zulJin.setCreationDate(dateFormatter().parse(created));
         zulJin.setListOfMounts(Arrays.asList(Troll.DEFAULT_MOUNT, null, shadowTiger()));
         zulJin.setSetOfMounts(trollMountSet());
         zulJin.setMapOfMounts(trollMountMap());
         return zulJin;
-        }
+    }
 }
