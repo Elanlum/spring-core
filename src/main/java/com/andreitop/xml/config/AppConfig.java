@@ -13,13 +13,10 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 
 import java.text.ParseException;
+import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 
 import java.text.SimpleDateFormat;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
 
 @Configuration
 @PropertySource("classpath:config/heroes.properties")
@@ -77,6 +74,9 @@ public class AppConfig {
         Troll zulJin = new Troll();
         zulJin.setColorCode(ThreadLocalRandom.current().nextInt(1,10));
         zulJin.setCreationDate(dateFormatter().parse(created));
-        return null;
-    }
+        zulJin.setListOfMounts(Arrays.asList(Troll.DEFAULT_MOUNT, null, shadowTiger()));
+        zulJin.setSetOfMounts(trollMountSet());
+        zulJin.setMapOfMounts(trollMountMap());
+        return zulJin;
+        }
 }
